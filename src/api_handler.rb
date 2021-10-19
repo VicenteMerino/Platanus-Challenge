@@ -15,7 +15,7 @@ class ApiHandler
     JSON.parse(response.body)
   end
 
-  def trades(market_id, timestamp: nil)
+  def trades(market_id, timestamp = nil)
     url = if timestamp
             "#{@base_url}/markets/#{market_id}/trades?timestamp=#{timestamp}?limit=100"
           else
