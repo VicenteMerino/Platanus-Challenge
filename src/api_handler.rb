@@ -12,6 +12,7 @@ class ApiHandler
   def markets
     url = "#{@base_url}/markets"
     response = RestClient.get(url)
+    sleep(0.3)
     JSON.parse(response.body)
   end
 
@@ -22,6 +23,7 @@ class ApiHandler
             "#{@base_url}/markets/#{market_id}/trades?limit=100"
           end
     response = RestClient.get(url)
+    sleep(0.3)
     JSON.parse(response.body)
   end
 end
