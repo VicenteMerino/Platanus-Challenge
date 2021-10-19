@@ -53,8 +53,3 @@ class Transactions
     maximum_trades
   end
 end
-
-transactions = Transactions.new
-transactions.all_markets_maximum_trade.each do |market|
-  puts market.to_s
-end
