@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
 require 'nokogiri'
-require_relative './transactions'
+require_relative 'api_handler'
+require_relative 'transactions'
 
-transactions = Transactions.new
-maximum_trades = transactions.all_markets_maximum_trade
+api_handler = ApiHandler.new
+transactions = Transactions.new(api_handler)
+maximum_trades = transactions.markets_maximum_trades
 
 builder = Nokogiri::HTML::Builder.new do |doc|
   doc.html do
     doc.head do
-      doc.link(rel: 'stylesheet', href: 'table.css')
+      doc.link(rel: 'stylesheet', href: 'assets/table.css')
     end
     doc.body do
       doc.table do
@@ -19,7 +21,6 @@ builder = Nokogiri::HTML::Builder.new do |doc|
           doc.th { doc.text 'Amount' }
           doc.th { doc.text 'Price' }
           doc.th { doc.text 'Transaction type' }
-          doc.th { doc.text 'Address' }
         end
         maximum_trades.each do |trade|
           doc.tr do
@@ -33,4 +34,6 @@ builder = Nokogiri::HTML::Builder.new do |doc|
   end
 end
 
-puts builder.to_html
+html_file = File.new('table.html', 'w')
+html_file.puts builder.to_html
+html_file.close
